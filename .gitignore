@@ -1,0 +1,107 @@
+# ==============================================================================
+# Sensitive Files & Passwords
+# ==============================================================================
+database password.txt
+*password*.txt
+*.secret
+*.key
+*.pem
+*.pfx
+*.cer
+*.crt
+
+# Environment variables & local secrets
+.env.local
+.env.*.local
+*.user
+*.userprefs
+
+# Local appsettings with credentials (keep appsettings.json template, ignore local overrides)
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.local.json
+
+# ==============================================================================
+# .NET / C# Build & Runtime
+# ==============================================================================
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/[Aa]rms/
+**/[Aa]rm64/
+**/bld/
+[Dd]rop/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet Packages
+*.nupkg
+**/packages/
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.assets.json
+
+# ==============================================================================
+# Node / Frontend (React / Vite)
+# ==============================================================================
+**/node_modules/
+**/dist/
+**/dist-ssr/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.vite/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==============================================================================
+# Visual Studio / VS Code / JetBrains Rider
+# ==============================================================================
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.userosscache
+*.sln.docstates
+_ReSharper*/
+*.DotSettings.user
+*.rider
+
+# ==============================================================================
+# Operating System Files
+# ==============================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# AI Agents & Workspaces
+.agents/

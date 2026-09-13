@@ -1,0 +1,114 @@
+@ErpServer_HostAddress = http://localhost:5110
+
+### Get all users
+GET {{ErpServer_HostAddress}}/users
+Accept: application/json
+
+### Get user by ID (replace placeholder ID)
+GET {{ErpServer_HostAddress}}/users/1
+Accept: application/json
+
+### Create a new user
+POST {{ErpServer_HostAddress}}/users
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "appRoleId": 1,
+  "isApproved": true
+}
+
+### Update user (replace placeholder ID)
+PUT {{ErpServer_HostAddress}}/users/1
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "email": "john.smith@example.com",
+  "appRoleId": 1,
+  "isApproved": true
+}
+
+### Delete user (replace placeholder ID)
+DELETE {{ErpServer_HostAddress}}/users/1
+
+### Get all appappRoles
+GET {{ErpServer_HostAddress}}/appappRoles
+Accept: application/json
+
+### Get appRole by ID (replace placeholder ID)
+GET {{ErpServer_HostAddress}}/appappRoles/1
+Accept: application/json
+
+### Create a new appRole
+POST {{ErpServer_HostAddress}}/roles
+Content-Type: application/json
+
+{
+  "name": "Administrator"
+}
+
+### Update appRole (replace placeholder ID)
+PUT {{ErpServer_HostAddress}}/roles/1
+Content-Type: application/json
+
+{
+  "name": "Super Admin"
+}
+
+### Delete appRole (replace placeholder ID)
+DELETE {{ErpServer_HostAddress}}/roles/1
+
+### ================= TASK ENDPOINTS =================
+
+### Get all tasks
+GET {{ErpServer_HostAddress}}/tasks
+Accept: application/json
+
+### Get task summary statistics
+GET {{ErpServer_HostAddress}}/tasks/summary
+Accept: application/json
+
+### Get task by ID
+GET {{ErpServer_HostAddress}}/tasks/1
+Accept: application/json
+
+### Create a new task
+POST {{ErpServer_HostAddress}}/tasks
+Content-Type: application/json
+
+{
+  "title": "Configurare modul de salarizare",
+  "description": "Implementare calcul salarii conform legislației în vigoare.",
+  "status": 0,
+  "deadline": "2026-09-01T12:00:00Z",
+  "assigneeIds": []
+}
+
+### Update a task
+PUT {{ErpServer_HostAddress}}/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Configurare modul de salarizare v2",
+  "description": "Implementare calcul salarii și generare fluturași.",
+  "status": 1,
+  "deadline": "2026-09-05T18:00:00Z",
+  "assigneeIds": []
+}
+
+### Quick status update (0=Pending, 1=InProgress, 2=Completed, 3=Cancelled)
+PATCH {{ErpServer_HostAddress}}/tasks/1/status
+Content-Type: application/json
+
+{
+  "status": 2
+}
+
+### Delete a task
+DELETE {{ErpServer_HostAddress}}/tasks/1
+
+

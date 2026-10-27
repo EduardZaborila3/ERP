@@ -22,7 +22,9 @@ public static class DataExtensions
                     maxRetryDelay: TimeSpan.FromSeconds(10),
                     errorCodesToAdd: null
                 );
-            }).UseSnakeCaseNamingConvention()
+            })
+            .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning))
         );
     }
 
@@ -100,6 +102,29 @@ public static class DataExtensions
             await dbContext.SaveChangesAsync();
         }
 
+        // Ensure "Șofer" job title exists
+        var soferTitle = await dbContext.JobTitles
+            .FirstOrDefaultAsync(jt => jt.Name.ToLower() == "șofer" || jt.Name.ToLower() == "sofer");
+        if (soferTitle == null)
+        {
+            soferTitle = new Models.JobTitle { Name = "Șofer" };
+            dbContext.JobTitles.Add(soferTitle);
+            await dbContext.SaveChangesAsync();
+        }
+
+        if (!await dbContext.Sites.AnyAsync())
+        {
+            dbContext.Sites.Add(new Models.ConstructionSite
+            {
+                Name = "Baza Tomești",
+                Description = "Baza principală de unde pleacă toate echipamentele și materialele",
+                Location = "Tomești, Iași",
+                IsBase = true,
+                CreatedAt = DateTime.UtcNow
+            });
+            await dbContext.SaveChangesAsync();
+        }
+
         var managerUser = await dbContext.Users
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(u => u.Email == "user@example.com");
@@ -126,5 +151,29 @@ public static class DataExtensions
             managerUser.PasswordHash = passwordHasher.HashPassword(managerUser, "Admin123!");
             await dbContext.SaveChangesAsync();
         }
+
+        // Ensure at least one driver user exists
+        var driverUser = await dbContext.Users
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(u => u.Email == "sofer@example.com");
+        if (driverUser == null && soferTitle != null)
+        {
+            var driver = new Models.User
+            {
+                Email = "sofer@example.com",
+                FirstName = "Vasile",
+                LastName = "Dumitru",
+                AppRoleId = 2,
+                JobTitleId = soferTitle.Id,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+            driver.PasswordHash = passwordHasher.HashPassword(driver, "Sofer123!");
+            dbContext.Users.Add(driver);
+            await dbContext.SaveChangesAsync();
+        }
+
+        // Seed the 5 construction sites and 100 mock stocks if not already seeded
+        await StockMockSeeder.SeedMockDataAsync(dbContext, force: false);
     }
 }

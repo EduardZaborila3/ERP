@@ -13,6 +13,8 @@ builder.AddErpCors();
 builder.AddErpAuth();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+builder.Services.AddHttpClient("SupabaseStorage");
+builder.Services.AddScoped<ISupabaseStorageService, SupabaseStorageService>();
 
 var app = builder.Build();
 
@@ -34,8 +36,11 @@ app.MapUsersEndpoints();
 app.MapRolesEndpoints();
 app.MapJobTitlesEndpoints();
 app.MapTasksEndpoints();
+app.MapCarsEndpoints();
+app.MapStocksEndpoints();
 
 // Migrate database and seed initial data
+
 await app.MigrateAndSeedDbAsync();
 
 app.Run();
